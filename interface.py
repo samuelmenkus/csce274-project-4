@@ -11,6 +11,7 @@ def state(state):
         connection.write(7)
         pass
     elif state == 'stop':
+        playSongs()
         connection.write(173)
         pass
     elif state == 'safe':

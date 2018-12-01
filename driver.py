@@ -31,7 +31,7 @@ while(1):
 
         if interface.dock() != 0:
             interface.drive(0,0)
-            time.sleep(3)
+            interface.state('stop')
         #PD controller
         #error for this iteration
         #set point is 250
