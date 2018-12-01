@@ -215,7 +215,7 @@ def dock():
     connection.write(142)
     connection.write(17)
     data = connection.read(1)
-    byte = struck.unpack('B', data)[0]
+    byte = struct.unpack('B', data)[0]
     return byte
     pass
 
