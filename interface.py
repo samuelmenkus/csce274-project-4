@@ -211,6 +211,14 @@ def drive(vr, vl):
     connection.write(vll)
     pass
 
+def dock():
+    connection.write(142)
+    connection.write(17)
+    data = connection.read(1)
+    byte = struck.unpack('B', data)[0]
+    return byte
+    pass
+
 #Song of Storms - Legend of Zelda - Ocarina of Time
 def songing():
     #song 0

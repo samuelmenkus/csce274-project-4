@@ -28,6 +28,10 @@ while(1):
             #back up for .03 seconds
             interface.drive(-200,-200)
             time.sleep(.03)
+
+        if interface.dock() != 0:
+            interface.drive(0,0)
+            time.sleep(3)
         #PD controller
         #error for this iteration
         #set point is 250
