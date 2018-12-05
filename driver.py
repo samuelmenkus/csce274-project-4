@@ -8,8 +8,11 @@ interface.connection.open()
 interface.state('start')
 #Sets robot to safe mode
 interface.state('safe')
+#Sets robot to full mode
+interface.state('full')
 #set button_pressed state to false
 button_pressed = False
+turned = False
 time.sleep(.015)
 #previous error
 error_pri = 0
@@ -19,20 +22,33 @@ Kp = .075
 Kd = .01
 #iteration time (seconds)
 iter_time = .155
+docking = False
 #runs forever
 while(1):
     #runs while button_pressed state is true
     while(button_pressed):
-        while(interface.dock() != 0):
-            if interface.dock() == 173:
+        robot_docked = interface.dock()
+        if robot_docked == 168:
+            docking = True
+        while(docking == True):
+            if turned == False:
+                interface.drive(100,-100)
+                time.sleep(1)
+                turned = True
+            robot_docked = interface.dock()
+            if interface.bumpers():
+                interface.drive(-60,-60)
                 interface.drive(0,0)
                 interface.state('stop')
-            elif interface.dock() == 172:
-                interface.drive(100,100)
-            elif interface.dock() == 168:
-                interface.drive(100,-100)
-            elif interface.dock() == 164:
-                interface.drive(-100,100)
+            elif robot_docked == 172:
+                print("straight")
+                interface.drive(60,60)
+            elif robot_docked == 168:
+                print("left")
+                interface.drive(60,30)
+            elif robot_docked == 164:
+                print("right")
+                interface.drive(30,60)
         while(interface.dock() == 0):
             #PD controller
             #error for this iteration
