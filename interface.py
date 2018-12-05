@@ -212,6 +212,7 @@ def drive(vr, vl):
     connection.write(vll)
     pass
 
+#checks the character received from the robots omnidirectional IR receiver
 def dock():
     connection.write(142)
     connection.write(17)

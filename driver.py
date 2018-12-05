@@ -12,7 +12,10 @@ interface.state('safe')
 interface.state('full')
 #set button_pressed state to false
 button_pressed = False
+#set turned state to false
 turned = False
+#set docking state to false
+docking = False
 time.sleep(.015)
 #previous error
 error_pri = 0
@@ -22,33 +25,46 @@ Kp = .075
 Kd = .01
 #iteration time (seconds)
 iter_time = .155
-docking = False
 #runs forever
 while(1):
     #runs while button_pressed state is true
     while(button_pressed):
+        #checks the omnidirectional dock sensor
         robot_docked = interface.dock()
+        #if the dock sensor sees the red beam then the robot should
+        #go into docking state equal true
         if robot_docked == 168:
             docking = True
+        #while docking state equal true
         while(docking == True):
+            #if the robot is still following the wall
             if turned == False:
+                #turn 90 degrees away from the wall
                 interface.drive(100,-100)
                 time.sleep(1)
+                #set turned state equal to true
                 turned = True
+            #updates what the robot sees from the omnidirectional dock sensor
             robot_docked = interface.dock()
+            #if the robot hits something
             if interface.bumpers():
+                #back up a litte, stop, play song, exit program
                 interface.drive(-60,-60)
                 interface.drive(0,0)
                 interface.state('stop')
+            #if the sensor sees the red and green buoys go straight
             elif robot_docked == 172:
-                print("straight")
+                #print("straight")
                 interface.drive(60,60)
+            #if the robot senses the red buoy then turn slightly left
             elif robot_docked == 168:
-                print("left")
+                #print("left")
                 interface.drive(60,30)
+            #if the robot senses the green buoy then turn slightly right
             elif robot_docked == 164:
-                print("right")
+                #print("right")
                 interface.drive(30,60)
+        #wall follows while it doesnt see the dock
         while(interface.dock() == 0):
             #PD controller
             #error for this iteration
